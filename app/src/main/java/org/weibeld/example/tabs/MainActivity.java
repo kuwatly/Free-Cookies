@@ -8,8 +8,19 @@ import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import org.weibeld.example.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -78,5 +89,79 @@ public class MainActivity extends AppCompatActivity {
             return PAGE_TITLES[position];
         }
 
+    }
+
+        private void deletePost() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        reference.child("Posts")
+                .child("MeetingIDGoesHere")
+                .child("-L394xC68ls2uBbHp8W0")
+                .removeValue();
+    }
+
+    private void getAll() {
+        final List<PostModel> mPosts = new ArrayList<>();
+        if(mPosts.size() > 0){
+            mPosts.clear();
+//            mAdapter.clear();
+        }
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        Query query = reference
+                .child("Posts")
+                .child("MeetingIDGoesHere");
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot singleSnapshot: dataSnapshot.getChildren()) {
+
+                    DataSnapshot snapshot = singleSnapshot;
+
+                    try {//need to catch null pointer here because the initial welcome message to the
+                        //chatroom has no user id
+                        PostModel message = new PostModel();
+                        message.setMessage(snapshot.getValue(PostModel.class).getMessage());
+                        message.setTimestamp(snapshot.getValue(PostModel.class).getTimestamp());
+                        //post.setPost_id(postId);
+                        message.setChecked(snapshot.getValue(PostModel.class).getChecked());
+                        message.setType(snapshot.getValue(PostModel.class).getType());
+                        mPosts.add(message);
+
+
+                    } catch (NullPointerException e) {
+                        Log.e("Error", "onDataChange: NullPointerException: " + e.getMessage());
+                    }
+
+                }
+                Log.i("Test", "onDataChange: NullPointerException");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+    private void addPost() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        String postId = reference
+                .child("Posts")
+                .child("MeetingIDGoesHere")
+                .push().getKey();
+
+        PostModel post = new PostModel();
+        post.setName("Pat");
+        Long tsLong = System.currentTimeMillis()/1000;
+        String ts = tsLong.toString();
+
+        post.setTimestamp(ts);
+        post.setMessage("Hello World");
+        post.setPost_id(postId);
+        post.setChecked("true");
+        post.setType("good");
+        reference
+                .child("Posts")
+                .child("MeetingIDGoesHere")
+                .child(postId)
+                .setValue(post);
     }
 }

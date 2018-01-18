@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "573145711479",
+    "firebase_url": "https://retrofy-5efb7.firebaseio.com",
+    "project_id": "retrofy-5efb7",
+    "storage_bucket": "retrofy-5efb7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573145711479:android:c3220cce48c2e0af",
+        "android_client_info": {
+          "package_name": "com.fordfacto.fordfacto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "573145711479-p50bf6caiddqol80kvl30im20s6ojcsi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA44So8ru4BOybibScFo0MBVZfd1S1CzuI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573145711479:android:4a4fbd20fd71ddf7",
+        "android_client_info": {
+          "package_name": "org.weibeld.example.tabs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "573145711479-p50bf6caiddqol80kvl30im20s6ojcsi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA44So8ru4BOybibScFo0MBVZfd1S1CzuI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
