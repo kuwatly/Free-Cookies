@@ -1,8 +1,13 @@
 package org.weibeld.example.tabs;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -16,11 +21,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import org.weibeld.example.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +43,13 @@ public class MainActivity extends AppCompatActivity {
             "Wondering",
             "Bad",
             "Action Items"
+    };
+
+    private final int[] PAGE_ICONS = new int[] {
+            R.drawable.check_mark_icon,
+            R.drawable.question_mark,
+            R.drawable.close_black,
+            R.drawable.clipboard
     };
 
     // The fragments that are used as the individual pages
@@ -66,6 +84,41 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        final Context context = this;
+
+        FloatingActionButton addFab = (FloatingActionButton) findViewById(R.id.add_item_fab);
+
+        addFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createDialog().show();
+            }
+        });
+    }
+
+    private AlertDialog createDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater= getLayoutInflater();
+        builder.setTitle("Add Retro Item")
+                .setView(inflater.inflate(R.layout.add_item_dialog,null));
+        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        return builder.create();
+    }
 
     /* PagerAdapter for supplying the ViewPager with the pages (fragments) to display. */
     public class MyPagerAdapter extends FragmentPagerAdapter {
@@ -86,9 +139,15 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return PAGE_TITLES[position];
-        }
+            Drawable image = getDrawable(PAGE_ICONS[position]);
+            image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());
+            //image.setBounds(0, 0, 64, 64);
+            ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
+            SpannableString sb = new SpannableString(" ");
+            sb.setSpan(imageSpan, 0, sb.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
+            return sb;
+        }
     }
 
         private void deletePost() {
@@ -141,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private void addPost() {
+    public void addPost() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         String postId = reference
                 .child("Posts")
