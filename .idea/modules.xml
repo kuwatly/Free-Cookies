@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AndroidTabsExample.iml" filepath="$PROJECT_DIR$/AndroidTabsExample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Free-Cookies.iml" filepath="$PROJECT_DIR$/Free-Cookies.iml" />
       <module fileurl="file://C:\Users\pbode\AndroidStudioProjects\AndroidTabsExample\TabsExample.iml" filepath="C:\Users\pbode\AndroidStudioProjects\AndroidTabsExample\TabsExample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://C:\Users\pbode\AndroidStudioProjects\AndroidTabsExample\app\app.iml" filepath="C:\Users\pbode\AndroidStudioProjects\AndroidTabsExample\app\app.iml" />
     </modules>

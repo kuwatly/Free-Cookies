@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/pageColor1">
 
-    <TextView
+    <ListView
+        android:id="@+id/good_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
