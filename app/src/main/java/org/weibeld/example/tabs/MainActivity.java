@@ -38,6 +38,7 @@ import java.util.zip.Inflater;
 public class MainActivity extends AppCompatActivity {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
+    private int currentFragmentId;
 
     // Titles of the individual pages (displayed in tabs)
     private final String[] PAGE_TITLES = new String[] {
@@ -104,14 +105,15 @@ public class MainActivity extends AppCompatActivity {
     private AlertDialog createDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater= getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.add_item_dialog, null);
         builder.setTitle("Add Retro Item")
-                .setView(inflater.inflate(R.layout.add_item_dialog,null));
+                .setView(dialogView);
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-//                EditText name = (EditText) builder.findViewById(R.id.postName);
-//                EditText message = (EditText) findViewById(R.id.postMessage);
-//                addPost(name.getText().toString(), message.getText().toString());
+                EditText name = (EditText) dialogView.findViewById(R.id.postName);
+                EditText message = (EditText) dialogView.findViewById(R.id.postMessage);
+                addPost(name.getText().toString(), message.getText().toString(), "bad");
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -120,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
+        AlertDialog alertDialog = builder.create();
         return builder.create();
     }
 
@@ -147,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-        private void deletePost() {
+    private void deletePost() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         reference.child("Posts")
                 .child("MeetingIDGoesHere")
@@ -197,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    public void addPost(String name, String message) {
+    public void addPost(String name, String message, String type) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         String postId = reference
                 .child("Posts")
@@ -213,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
         post.setMessage(message);
         post.setPost_id(postId);
         post.setChecked("false");
-        post.setType("question");
+        post.setType(type);
         reference
                 .child("Posts")
                 .child("MeetingIDGoesHere")
