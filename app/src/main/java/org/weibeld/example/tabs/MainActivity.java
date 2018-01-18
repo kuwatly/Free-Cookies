@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -108,7 +109,9 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
+//                EditText name = (EditText) builder.findViewById(R.id.postName);
+//                EditText message = (EditText) findViewById(R.id.postMessage);
+//                addPost(name.getText().toString(), message.getText().toString());
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -194,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    public void addPost() {
+    public void addPost(String name, String message) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         String postId = reference
                 .child("Posts")
@@ -202,15 +205,15 @@ public class MainActivity extends AppCompatActivity {
                 .push().getKey();
 
         PostModel post = new PostModel();
-        post.setName("Pat");
+        post.setName(name);
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
 
         post.setTimestamp(ts);
-        post.setMessage("Hello World");
+        post.setMessage(message);
         post.setPost_id(postId);
-        post.setChecked("true");
-        post.setType("good");
+        post.setChecked("false");
+        post.setType("question");
         reference
                 .child("Posts")
                 .child("MeetingIDGoesHere")
